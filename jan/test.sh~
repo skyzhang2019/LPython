@@ -1,0 +1,29 @@
+#!/bin/bash
+if [ -z "$1" ];then
+	echo "please input file name..."
+else 
+if [ -e "$1" ];then
+i=0
+m_mac=""
+m_user=""
+for lines in `cat mac_user_mapping.txt`
+	do
+		var1=${lines}
+		if [ `expr length $var1` -eq 17 ];then
+			echo "$var1 is mac"
+			m_mac=$var1
+			else
+			echo "$var1 is user"
+			m_user=$var1
+		fi
+		i=`expr $i + 1`
+###if i/2 then bengin to sed###
+		if [ `expr $i % 2` -eq 0 ];then
+			echo "run: sed -i 's/'$m_mac'/'$m_user'/g' $1"
+		  sed -i 's/'$m_mac'/'$m_user'/g' $1	
+		fi
+	done
+else
+echo "$1 is not existed,please check file name again"
+fi
+fi

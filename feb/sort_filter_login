@@ -1,0 +1,11 @@
+#!/bin/bash
+##this script if for extracting and sorting row data for DAKA##
+####Manually delete top line of $1,by running sed -i '1d' ###
+if [ -e "$1"  ] ;then
+	echo "we will sort $1"
+	sed -i "/"MAC"/d" $1
+	cat $1 |awk -F'","' '{print $1,$2,$8,$10}'|tr -d ['="'] |awk '{print $5,$4,$3,$1,$2}'|sort|awk '{print $5,$4,$3,$1,$2}'|uniq -f1 > "$1_sorted"
+else
+	echo "the file $1 is not exit"
+fi
+

@@ -1,0 +1,8 @@
+!/bin/bash
+###prepare to sort org data
+ cat BJ_logon.csv  |awk -F'[ ,]' '{print $11,$3,$9,$1,$2}'|sort > bj_user_li_sort.txt
+ cat bj_user_li_sort.txt  |awk '{print $5,$1,$2,$3,$4}'
+##only select the first one for logon##
+###Skip for the time compare###
+##only work for logon, for logout, should be sort -r###
+cat bj_user_li_sort.txt  |awk '{print $5,$1,$2,$3,$4}' |uniq -f1

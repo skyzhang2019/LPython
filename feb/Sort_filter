@@ -1,0 +1,8 @@
+cat Feb_logout.csv |awk -F'[ ,]' '{print $11,$8,$9,$1,$2}'|sort -r |awk '{print $5,$1,$2,$3,$4}' |uniq -f1 |more >Feb_logout_sorted.txt
+cat Feb_login.csv |awk -F'[ ,]' '{print $11,$8,$9,$1,$2}'|sort |awk '{print $5,$1,$2,$3,$4}' |uniq -f1 >Feb_login_sorted.txt
+
+
+### split/sort data we want##
+cat Feb_login.csv |awk -F'[,]' '{print $1,$2,$8,$10}'|tr -d ['="'] |more
+
+## $1=>data&time, $2=>logon/logout, $3=>Mac or user $8=>Mac,$9=?AP,$10=>location ##

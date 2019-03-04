@@ -1,0 +1,44 @@
+#!/bin/bash
+##usage: A2B Alist Blist###
+if [ -z "$1" -o -z "$2" ];then
+	echo "please input file name of Alist and Blist..."
+	echo "usage: mac2user Alist Blist"
+else 
+if [ -e "$1" -a -e "$2" ];then
+	i=0
+	m_A=""
+	m_B=""
+	m_i_A=0
+	m_i_B=0
+	for lines in `cat $1`
+		do
+			var1=${lines}
+			if [ `expr $m_i_B` -eq 0 -a `expr $m_i_A` -ne 1 -a `expr length $var1` -ge 1 ];then
+			#	echo "$var1 is A"
+				echo $m_i_A, $m_i_B
+				m_A=$var1
+				m_i_A=1
+			elif [ `expr $m_i_A` -eq 1 -a `expr $m_i_B` -ne 1 -a `expr length $var1` -ge 1 ]; then
+			#	echo "$var1 is user"
+				m_B=$var1
+				m_i_B=1
+			fi
+		i=`expr $i + 1`
+		###if i/2 then bengin to sed###
+		if [ `expr $i % 2` -eq 0 -a $m_i_A -eq 1 -a $m_i_B -eq 1 ];then
+			echo "I am running sed -i 's/'$m_A'/'$m_B'/g' $2"
+			sed -i 's/'$m_A'/'$m_B'/g' $2	
+			if [ $? -eq 0 ]; then
+				m_i_A=0  ## if replacement runs fine,then ready to next loop
+				m_i_B=0  ## if replacement runs fine,then ready to next loop
+			fi
+		fi
+		done
+else
+	if [ -e "$1" ];then
+		echo "$2 is not existed,please check file name again"
+	else 
+		echo "$1 is not existed,please check file name again"
+	fi
+fi
+fi
